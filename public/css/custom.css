@@ -1,0 +1,14 @@
+.content{
+    margin: 60px 10px 10px 20px;
+  }  
+
+.load {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: blue;
+}
+  
+#titulo_navbar{color: #fff;}
