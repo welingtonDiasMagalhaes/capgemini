@@ -37,15 +37,21 @@ function procurarConta(){
             {                                 
                 $(".load").hide();
                 var html =  "";
-                html += "<tr>";
-                html += "<td align='center' >" + data.conta[0].id + "</td>";
-                html += "<td align='center' >" + data.conta[0].nome + "</td>";
-                html += "<td align='center' >" + data.conta[0].conta + "</td>";
-                html += "<td align='center' id='saldo'>" + data.conta[0].saldo + "</td>";
-                html += "<td align='center' >";
-                html += " <a class='btn btn-success btn-sm' onclick=\"depositar('"+ data.conta[0].id +"')\" >Depositar</a>";
-                html += " <a class='btn btn-secondary btn-sm' onclick=\"sacar('"+ data.conta[0].id +"')\" >Sacar</a>";
-                html += "</td>";;
+
+                if(data.conta.length > 0){
+                    html += "<tr>";
+                    html += "<td align='center' >" + data.conta[0].id + "</td>";
+                    html += "<td align='center' >" + data.conta[0].nome + "</td>";
+                    html += "<td align='center' >" + data.conta[0].conta + "</td>";
+                    html += "<td align='center' id='saldo'>" + data.conta[0].saldo + "</td>";
+                    html += "<td align='center' >";
+                    html += " <a class='btn btn-success btn-sm' onclick=\"depositar('"+ data.conta[0].id +"')\" >Depositar</a>";
+                    html += " <a class='btn btn-secondary btn-sm' onclick=\"sacar('"+ data.conta[0].id +"')\" >Sacar</a>";
+                    html += "</td>";
+                }
+                else{
+                    html = "<tr><td align='center' colspan='5' >Não Encontrado</td></tr>";
+                }
 
                 $("#dados_retorno").html(html);
                 $("#retorno").show();
@@ -108,15 +114,27 @@ function save(){
             {                        
                 $(".load").hide();                 
                 
+                if(data.error){
+                    // alert("erro")
+                    var erro = "";
+                    $.each( data.error, function(k, v) {
+                         erro += "- "+v+"<br/>";
+                    });
+     
+                    $('#modal-validacao').html(erro);
+                    $('#modal-validacao').show();
+                 }
+                 else{  
 
-                $('#saldo').html(data.saldo);
+                    $('#saldo').html(data.saldo);
 
-                if(data.msg == 0){
-                    $("#modal-validacao").html("Erro: saldo insuficiente!");
-                    $("#modal-validacao").show();
-                }
-                else{
-                    $('#modal_form').modal('hide');
+                    if(data.msg == 0){
+                        $("#modal-validacao").html("Erro: saldo insuficiente!");
+                        $("#modal-validacao").show();
+                    }
+                    else{
+                        $('#modal_form').modal('hide');
+                    }
                 }
 
             },

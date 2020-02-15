@@ -25,6 +25,23 @@ class ContasController extends Controller
     }
     
     function depositar(request $req){
+        $rules = array(
+            'valor'=>'required|numeric|between:0,99999999.99'
+        );
+
+        $mensagens=[
+            'valor.required' => 'O campo VALOR não pode estar vazio.',
+	        'valor.numeric' => 'O campo VALOR deve ser numerico com ponto decimal',
+	        'valor.between' => 'O campo VALOR deve estar entre 0 e 99999999.99'
+        ];
+
+        $error = Validator::make($req->all(), $rules, $mensagens);
+
+        if($error->fails())
+        {
+            return response()->json(['error' => $error->errors()->all()]);
+        }
+
         $saldoAtual = $this->saldoAtual($req['id']);
 
         $saldoAtual += $req['valor'];
@@ -39,6 +56,23 @@ class ContasController extends Controller
     }
 
     function sacar(request $req){
+        $rules = array(
+            'valor'=>'required|numeric|between:0,99999999.99'
+        );
+
+        $mensagens=[
+            'valor.required' => 'O campo VALOR não pode estar vazio.',
+	        'valor.numeric' => 'O campo VALOR deve ser numerico com ponto decimal',
+	        'valor.between' => 'O campo VALOR deve estar entre 0 e 99999999.99'
+        ];
+
+        $error = Validator::make($req->all(), $rules, $mensagens);
+
+        if($error->fails())
+        {
+            return response()->json(['error' => $error->errors()->all()]);
+        }
+        
         $saldoAtual = $this->saldoAtual($req['id']);        
 
         if($saldoAtual >= $req['valor']){
